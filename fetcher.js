@@ -9,6 +9,12 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+fs.stat(PATH, (err, stats) => {
+  if (err) {
+    console.log("Failed: local file path invalid")
+    process.exit();
+  }
+})
 
 request(URL, (error, response, body) => {
   downloadFile(body);
