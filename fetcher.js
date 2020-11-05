@@ -17,6 +17,13 @@ fs.stat(PATH, (err, stats) => {
 })
 
 request(URL, (error, response, body) => {
+  if (error) {
+    console.log("Invalid URL. Error:\n", error);
+    process.exit();
+  } else if (response.statusCode !== 200) {
+    console.log("Invalid URL. Status Code: ", response.statusCode);
+    process.exit();
+  }
   downloadFile(body);
 });
 
@@ -27,6 +34,7 @@ const downloadFile = (data) => {
         rl.close();
         fs.writeFile(PATH, data, (err) => printSize(PATH));
       } else {
+        console.log("Download aborted");
         rl.close();
       }
     });
